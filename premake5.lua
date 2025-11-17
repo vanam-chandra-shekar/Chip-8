@@ -22,18 +22,35 @@ project "Main"
 
 
     files {
-        "src/**.h",
-        "src/**.cpp",
+        "app/**.h",
+        "app/**.hpp",
+        "app/**.cpp",
+
+        "cpu/**.h",
+        "cpu/**.hpp",
+        "cpu/**.cpp",
+
+        "io/**.h",
+        "io/**.hpp",
+        "io/**.cpp",
+
+        "utils/**.h",
+        "utils/**.hpp",
+        "utils/**.cpp",
+
         "*.cpp",
         "*.hpp",
         "*.h"
     }
 
     includedirs {
-        "src",
         Deps.GLFW.IncludeDir,
         Deps.ImGui.Root,
-        Deps.ImGui.Backends
+        Deps.ImGui.Backends,
+        "cpu",
+        "io",
+        "utils",
+        "app"
     }
 
     links {
