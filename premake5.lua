@@ -17,7 +17,7 @@ project "Main"
     cppdialect "C++17"
     staticruntime "on"
 
-    targetdir (path.join(Deps.BinDir, "%{cfg.buildcfg}"))
+    targetdir ("%{wks.location}")
     objdir    (path.join(Deps.ObjDir, "%{cfg.buildcfg}", "%{prj.name}"))
 
 
@@ -32,13 +32,15 @@ project "Main"
     includedirs {
         "src",
         Deps.GLFW.IncludeDir,
-        Deps.ImGui.Root
+        Deps.ImGui.Root,
+        Deps.ImGui.Backends
     }
 
     links {
         "GLFW",
         "ImGui",
-        "opengl32"
+        "opengl32",
+        "gdi32"
     }
 
     filter "configurations:Debug"
