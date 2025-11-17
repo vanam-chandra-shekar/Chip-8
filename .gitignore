@@ -1,0 +1,55 @@
+# Build outputs
+bin/
+bin-int/
+
+# Premake generated files
+*.make
+Makefile
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+
+# Compiled Object files
+*.o
+*.obj
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+**/compile_commands.json
