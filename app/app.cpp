@@ -1,4 +1,5 @@
 #include "app.hpp"
+#include <GL/gl.h>
 #include <cstdlib>
 #include <iostream>
 #include <GLFW/glfw3.h>
@@ -19,8 +20,15 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 }
 
 
+
+
 Application::Application(const char* title , int display_scale) 
-    : m_title(title), m_display(display_scale), m_keypad(), m_cpu(m_display, m_keypad)
+    : m_title(title),
+      m_display(display_scale),
+      m_keypad(),
+      m_cpu(m_display, m_keypad),
+      m_displayTexture(0),
+      m_displayPixels(m_display.HEIGHT * m_display.WIDTH)
 {
 
     glfwSetErrorCallback(error_callback);
@@ -33,6 +41,8 @@ Application::Application(const char* title , int display_scale)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
 
     window = glfwCreateWindow(m_display.getWidth(), m_display.getHeight(), m_title, NULL, NULL);
 
@@ -60,6 +70,8 @@ Application::Application(const char* title , int display_scale)
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
+
+    initTexture();
 
 }
 

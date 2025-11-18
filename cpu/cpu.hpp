@@ -33,5 +33,6 @@ public:
     Cpu( const Display& display , const Keypad& keypad );
 
     void LoadROM(const char* filename);
+    void runCycle();
 
 };

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 
 class Display {
 public:
@@ -11,7 +10,25 @@ public:
     constexpr int getWidth() const { return WIDTH * m_scale; }
     constexpr int getHeight() const { return HEIGHT * m_scale; }
 
-    std::vector<bool> m_Pixels;
+    bool* buffer;
 
-    Display(int scale) : m_scale(scale), m_Pixels(WIDTH * HEIGHT, false) {}
+    Display(int scale) : m_scale(scale), buffer(new bool[WIDTH * HEIGHT]()) {
+        
+    }
+    ~Display() { delete[] buffer; }
+
+    void clear() {
+        for (int i = 0; i < WIDTH * HEIGHT; ++i) {
+            buffer[i] = false;
+        }
+    }
+
+    void setPixel(int x, int y, bool value) {
+        if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return;
+        buffer[y * WIDTH + x] = value;
+    }
+
+    bool* getBuffer() {
+        return buffer;
+    }
 };

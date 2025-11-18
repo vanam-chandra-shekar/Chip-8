@@ -54,3 +54,5 @@ Desktop.ini
 
 **/compile_commands.json
 imgui.ini
+
+.cache/
