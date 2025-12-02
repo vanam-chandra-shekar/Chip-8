@@ -6,7 +6,7 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-
+#include <chrono>
 
 static void error_callback(int error, const char* description)
 {
@@ -17,6 +17,20 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
+
+void Application::processInput() {
+
+    //keypad mapping
+    for (const auto& [glfwKey, chip8Key] : m_keyMap) {
+        if (glfwGetKey(window, glfwKey) == GLFW_PRESS) {
+            m_keypad.setKey(chip8Key, true);
+        } else {
+            m_keypad.setKey(chip8Key, false);
+        }
+    }
+
+    glfwPollEvents();
 }
 
 
@@ -75,10 +89,15 @@ Application::Application(const char* title , int display_scale)
 
 }
 
-void Application::run() {
+void Application::run(const char* romPath) {
+
+    m_cpu.LoadROM(romPath);
+
+    auto lastCycleDelay = std::chrono::high_resolution_clock::now();
 
     while(!glfwWindowShouldClose(window)){
-        glfwPollEvents();
+
+        processInput();
 
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
@@ -87,7 +106,14 @@ void Application::run() {
 
         // ImGui UI
 
-        renderUI();
+        auto now = std::chrono::high_resolution_clock::now();
+        float dt = std::chrono::duration<float, std::milli>(now - lastCycleDelay).count();
+
+        if(dt >= 3.0f){ //500 Hz
+            m_cpu.runCycle();
+            lastCycleDelay = now;
+            renderUI();
+        }
 
         // Rendering
         ImGui::Render();

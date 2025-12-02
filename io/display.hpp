@@ -1,6 +1,7 @@
 #pragma once
 
 
+#include <winscard.h>
 class Display {
 public:
     static const int WIDTH = 64;
@@ -17,7 +18,7 @@ public:
     }
     ~Display() { delete[] buffer; }
 
-    void clear() {
+    inline void clear() {
         for (int i = 0; i < WIDTH * HEIGHT; ++i) {
             buffer[i] = false;
         }
@@ -26,6 +27,10 @@ public:
     void setPixel(int x, int y, bool value) {
         if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return;
         buffer[y * WIDTH + x] = value;
+    }
+
+    bool getPixel(int x , int y){
+        return buffer[y * WIDTH + x];
     }
 
     bool* getBuffer() {

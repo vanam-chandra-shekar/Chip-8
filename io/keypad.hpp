@@ -1,5 +1,4 @@
 #pragma once
-#include <unordered_map>
 #include <vector>
 
 class Keypad {
@@ -28,6 +27,12 @@ public:
             return m_Keys[key];
         }
         return false;
+    }
+
+    void setKey(int key, bool pressed) {
+        if (key >= 0 && key < KEY_COUNT) {
+            m_Keys[key] = pressed;
+        }
     }
 
 

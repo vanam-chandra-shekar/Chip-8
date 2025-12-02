@@ -29,10 +29,9 @@ uint8_t fontset[FONTSET_SIZE] =
 	0xF0, 0x80, 0xF0, 0x80, 0x80  // F
 };
 
-const unsigned int PROGRAM_START = 0x200;
-const unsigned int FONT_SET_START = 0x50;
 
-Cpu::Cpu(const Display& display , const Keypad& keypad) 
+
+Cpu::Cpu( Display& display ,  Keypad& keypad) 
     :   m_v(16, 0),
         m_memory(0xFFF, 0),
         m_idx(0), m_pc(0),
@@ -50,6 +49,23 @@ Cpu::Cpu(const Display& display , const Keypad& keypad)
 
     m_randByte = std::uniform_int_distribution<byte>(0,255U);
 
+    dispachTable[0x0] = &Cpu::OP_0Table;
+    dispachTable[0x1] = &Cpu::OP_1nnn;
+    dispachTable[0x2] = &Cpu::OP_2nnn;
+    dispachTable[0x3] = &Cpu::OP_3xkk;
+    dispachTable[0x4] = &Cpu::OP_4xkk;
+    dispachTable[0x5] = &Cpu::OP_5xy0;
+    dispachTable[0x6] = &Cpu::OP_6xkk;
+    dispachTable[0x7] = &Cpu::OP_7xkk;
+    dispachTable[0x8] = &Cpu::OP_8Table;
+    dispachTable[0x9] = &Cpu::OP_9xy0;
+    dispachTable[0xA] = &Cpu::OP_Annn;
+    dispachTable[0xB] = &Cpu::OP_Bnnn;
+    dispachTable[0xC] = &Cpu::OP_Cxkk;
+    dispachTable[0xD] = &Cpu::OP_Dxyn;
+    dispachTable[0xE] = &Cpu::OP_ETable;
+    dispachTable[0xF] = &Cpu::OP_FTable;
+    
 };
 
 
